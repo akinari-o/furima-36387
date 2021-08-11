@@ -29,7 +29,7 @@
 | address                     | string               | null: false                    |
 | building_name               | string               |                                |
 | telephone_number            | string               | null: false                    |
-| user_buy_sells              | references           | null: false, foreign_key: true |
+| user_buy_sell               | references           | null: false, foreign_key: true |
 
 ### Association
 
@@ -45,14 +45,14 @@
 | category_id                 | integer              | null: false                    |
 | condition_id                | integer              | null: false                    |
 | delivery_fee_id             | integer              | null: false                    |
-| prefecture_id               | integer              | null: false                    |
-| day_to_ship_id              | integer              | null: false                    |
+| prefecture_id               | integer              | null: false, foreign_key: true |
+| day_to_ship_id              | integer              | null: false, foreign_key: true |
 | price                       | integer              | null: false                    |
-
+| user                        | references           | null: false, foreign_key: true |
 ### Association
 
 - belongs_to :user
-- belongs_to :user_buy_sell
+- has_one :user_buy_sell
 
 
 ## user_buy_sells テーブル
@@ -65,4 +65,4 @@
 ### Association
 - belongs_to :user
 - has_one :product_buy
-- has_one :product_sell
+- belongs_to :product_sell
