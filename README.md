@@ -23,17 +23,17 @@
 
 | Column                      | Type                 | Options                        |
 | --------------------------- | -------------------- | ------------------------------ |
-| postal_code                 | integer              | null: false                    |
-| prefectures :category_id    | integer              | null: false                    |
+| postal_code                 | string               | null: false                    |
+| prefecture_id               | integer              | null: false                    |
 | municipalities              | string               | null: false                    |
 | address                     | string               | null: false                    |
 | building_name               | string               |                                |
-| telephone_number            | string               | null: false                    |      
+| telephone_number            | string               | null: false                    |
 | user_buy_sells              | references           | null: false, foreign_key: true |
 
 ### Association
 
-- has_one :user_buy_sell 
+- belongs_to :user_buy_sell 
 
 
 ## product_sells テーブル
@@ -43,16 +43,16 @@
 | product_name                | string               | null: false                    |
 | description                 | text                 | null: false                    |
 | category_id                 | integer              | null: false                    |
-| condition :category_id      | integer              | null: false                    |
-| delivery_fee :category_id   | integer              | null: false                    |
-| shipping_area :category_id  | integer              | null: false                    |
-| day_to_ship :category_id    | integer              | null: false                    |
+| condition_id                | integer              | null: false                    |
+| delivery_fee_id             | integer              | null: false                    |
+| prefecture_id               | integer              | null: false                    |
+| day_to_ship_id              | integer              | null: false                    |
 | price                       | integer              | null: false                    |
 
 ### Association
 
 - belongs_to :user
-- has_one :user_buy_sell
+- belongs_to :user_buy_sell
 
 
 ## user_buy_sells テーブル
@@ -64,5 +64,5 @@
 
 ### Association
 - belongs_to :user
-- belongs_to :product_buy
-- belongs_to :product_sell
+- has_one :product_buy
+- has_one :product_sell
