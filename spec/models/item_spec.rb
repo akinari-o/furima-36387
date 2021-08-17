@@ -14,40 +14,49 @@ RSpec.describe Item, type: :model do
     end
 
     context '出品できないとき' do
-      it '商品画像を1枚つけないと出品できない' do
+      it 'imageを1枚つけないと出品できない' do
+        @item.image = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
       end
 
-      it '商品名が空では出品できない' do
+      it 'product_nameが空では出品できない' do
         @item.product_name = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Product name can't be blank")
       end
 
-      it '商品の説明が空では出品できない' do
+      it 'descriptionが空では出品できない' do
         @item.description = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Description can't be blank")
       end
 
-      it '価格が空では出品できない' do
+      it 'priceが空では出品できない' do
         @item.price = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
 
-      it '価格が300未満では出品できない' do
-        @item.price = '200'
+      it 'priceが300未満では出品できない' do
+        @item.price = 200
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
       end
 
-      it '価格が9999999より大きければ出品できない' do
-        @item.price = '10000000'
+      it 'priceが9999999より大きければ出品できない' do
+        @item.price = 10000000
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
       end
-      it '価格が半角数字以外入っていれば出品できない' do
+      it 'priceが半角数字以外入っていれば出品できない' do
         @item.price = '１０００'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+
+      it 'priceが半角英数字混合だと登録できない' do
+        @item.price = 'a1000'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not a number")
       end
@@ -80,6 +89,12 @@ RSpec.describe Item, type: :model do
         @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
+      end
+
+      it 'user情報がないと出品できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
       end
 
 
