@@ -61,6 +61,12 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Price is not a number")
       end
 
+      it 'priceが半角英語のみでは登録できない' do
+        @item.price = 'aaaaa'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+
       it 'categoryが選択されていなければ出品できない' do
         @item.category_id = 1
         @item.valid?
