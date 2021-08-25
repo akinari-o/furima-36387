@@ -2,7 +2,8 @@ class Item < ApplicationRecord
   #association
   belongs_to :user
   has_one_attached :image
-
+  has_one :user_buy_sell
+  
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
   belongs_to :condition
