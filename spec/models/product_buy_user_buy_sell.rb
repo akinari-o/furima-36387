@@ -4,7 +4,7 @@ RSpec.describe ProductBuyUserBuySell, type: :model do
   before do
     user = FactoryBot.create(:user)
     item = FactoryBot.create(:item)
-    @product_buy_user_buy_sell = FactoryBot.build(:product_buy_user_buy_sell, user_id: user.id,item_id: item.id)
+    @product_buy_user_buy_sell = FactoryBot.build(:product_buy_user_buy_sell, user_id: user.id, item_id: item.id)
     sleep 0.1
   end
 
@@ -15,22 +15,22 @@ RSpec.describe ProductBuyUserBuySell, type: :model do
       end
 
       it 'building_nameがなくても購入できる' do
-        @product_buy_user_buy_sell.building_name = ""
+        @product_buy_user_buy_sell.building_name = ''
         expect(@product_buy_user_buy_sell).to be_valid
       end
     end
 
     context '購入できないとき' do
       it 'postal_codeが空では購入できない' do
-        @product_buy_user_buy_sell.postal_code = ""
+        @product_buy_user_buy_sell.postal_code = ''
         @product_buy_user_buy_sell.valid?
         expect(@product_buy_user_buy_sell.errors.full_messages).to include("Postal code can't be blank")
       end
 
       it 'postal_codeが3桁ハイフン4桁でなければ購入できない' do
-        @product_buy_user_buy_sell.postal_code = "1111111"
+        @product_buy_user_buy_sell.postal_code = '1111111'
         @product_buy_user_buy_sell.valid?
-        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Postal code is invalid. Enter it as follows (e.g. 123-4567)")
+        expect(@product_buy_user_buy_sell.errors.full_messages).to include('Postal code is invalid. Enter it as follows (e.g. 123-4567)')
       end
 
       it 'prefectureが空では購入できない' do
@@ -46,40 +46,39 @@ RSpec.describe ProductBuyUserBuySell, type: :model do
       end
 
       it 'municipalitiesが空では購入できない' do
-        @product_buy_user_buy_sell.municipalities = ""
+        @product_buy_user_buy_sell.municipalities = ''
         @product_buy_user_buy_sell.valid?
         expect(@product_buy_user_buy_sell.errors.full_messages).to include("Municipalities can't be blank")
       end
 
       it 'addressが空では購入できない' do
-        @product_buy_user_buy_sell.address = ""
+        @product_buy_user_buy_sell.address = ''
         @product_buy_user_buy_sell.valid?
         expect(@product_buy_user_buy_sell.errors.full_messages).to include("Address can't be blank")
       end
 
       it 'telephone_numberが空では購入できない' do
-        @product_buy_user_buy_sell.telephone_number = ""
+        @product_buy_user_buy_sell.telephone_number = ''
         @product_buy_user_buy_sell.valid?
         expect(@product_buy_user_buy_sell.errors.full_messages).to include("Telephone number can't be blank")
       end
 
       it 'telephone_numberが半角数値のみでなければでは購入できない' do
-        @product_buy_user_buy_sell.telephone_number = "090-1111-11"
+        @product_buy_user_buy_sell.telephone_number = '090-1111-11'
         @product_buy_user_buy_sell.valid?
-        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Telephone number is invalid. Input only number")
-        
+        expect(@product_buy_user_buy_sell.errors.full_messages).to include('Telephone number is invalid. Input only number')
       end
 
       it 'telephone_numberが9桁以下では購入できない' do
-        @product_buy_user_buy_sell.telephone_number = "090111111"
+        @product_buy_user_buy_sell.telephone_number = '090111111'
         @product_buy_user_buy_sell.valid?
-        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Telephone number is invalid. 10or11 digit")
+        expect(@product_buy_user_buy_sell.errors.full_messages).to include('Telephone number is invalid. 10or11 digit')
       end
 
       it 'telephone_numberが12桁以上では購入できない' do
-        @product_buy_user_buy_sell.telephone_number = "090111111111"
+        @product_buy_user_buy_sell.telephone_number = '090111111111'
         @product_buy_user_buy_sell.valid?
-        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Telephone number is invalid. 10or11 digit")
+        expect(@product_buy_user_buy_sell.errors.full_messages).to include('Telephone number is invalid. 10or11 digit')
       end
 
       it 'user_idが空では購入できない' do
@@ -99,11 +98,6 @@ RSpec.describe ProductBuyUserBuySell, type: :model do
         @product_buy_user_buy_sell.valid?
         expect(@product_buy_user_buy_sell.errors.full_messages).to include("Token can't be blank")
       end
-
-
-
-     
-
     end
   end
 end
