@@ -1,3 +1,3 @@
 class ProductBuy < ApplicationRecord
-belongs_to: item
+belongs_to: user_buy_sell
 end
