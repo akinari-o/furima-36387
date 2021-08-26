@@ -13,7 +13,7 @@ const pay = () => {
       exp_year: `20${formData.get("product_buy_user_buy_sell[card_exp_year]")}`,
       cvc: formData.get("product_buy_user_buy_sell[card_security_number]"),
     };
-    console.log(card)
+    
 
     Payjp.createToken(card, (status, response) => {
       console.log(response)
