@@ -2,13 +2,20 @@ require 'rails_helper'
 
 RSpec.describe ProductBuyUserBuySell, type: :model do
   before do
-    @product_buy_user_buy_sell = FactoryBot.build(:product_buy_user_buy_sell)
-   
+    user = FactoryBot.create(:user)
+    item = FactoryBot.create(:item)
+    @product_buy_user_buy_sell = FactoryBot.build(:product_buy_user_buy_sell, user_id: user.id,item_id: item.id)
+    sleep 0.1
   end
 
   describe '商品購入機能' do
     context '購入できるとき' do
       it '全ての項目があれば購入できる' do
+        expect(@product_buy_user_buy_sell).to be_valid
+      end
+
+      it 'building_nameがなくても購入できる' do
+        @product_buy_user_buy_sell.building_name = ""
         expect(@product_buy_user_buy_sell).to be_valid
       end
     end
@@ -26,8 +33,14 @@ RSpec.describe ProductBuyUserBuySell, type: :model do
         expect(@product_buy_user_buy_sell.errors.full_messages).to include("Postal code is invalid. Enter it as follows (e.g. 123-4567)")
       end
 
-      it 'prefectureが空では出品できない' do
+      it 'prefectureが空では購入できない' do
         @product_buy_user_buy_sell.prefecture_id = nil
+        @product_buy_user_buy_sell.valid?
+        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Prefecture can't be blank")
+      end
+
+      it 'prefectureが1では購入できない' do
+        @product_buy_user_buy_sell.prefecture_id = 1
         @product_buy_user_buy_sell.valid?
         expect(@product_buy_user_buy_sell.errors.full_messages).to include("Prefecture can't be blank")
       end
@@ -60,7 +73,13 @@ RSpec.describe ProductBuyUserBuySell, type: :model do
       it 'telephone_numberが9桁以下では購入できない' do
         @product_buy_user_buy_sell.telephone_number = "090111111"
         @product_buy_user_buy_sell.valid?
-        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Telephone number is too short")
+        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Telephone number is invalid. 10or11 digit")
+      end
+
+      it 'telephone_numberが12桁以上では購入できない' do
+        @product_buy_user_buy_sell.telephone_number = "090111111111"
+        @product_buy_user_buy_sell.valid?
+        expect(@product_buy_user_buy_sell.errors.full_messages).to include("Telephone number is invalid. 10or11 digit")
       end
 
       it 'user_idが空では購入できない' do
