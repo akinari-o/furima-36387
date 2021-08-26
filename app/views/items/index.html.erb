@@ -118,9 +118,7 @@
       </li>
     </ul>
   </div>
-  <%# /FURIMAの特徴 %>
-
-  <%# 商品一覧 %>
+ 
   <div class='item-contents'>
     <h2 class='title'>ピックアップカテゴリー</h2>
     <div class="subtitle" >
@@ -135,13 +133,13 @@
         <div class='item-img-content'>
           <%= image_tag item.image, class: "item-img" %>
 
-          <%# もし購入記録のテーブルにその商品データがあるならばsold outを表示しましょう %>
-          
-          <%# <div class='sold-out'>
+         
+          <% if item.user_buy_sell.present? %> 
+           <div class='sold-out'> 
             <span>Sold Out!!</span>
-          </div> %>
-          
-          <%# //商品が売れていればsold outを表示しましょう %>
+          </div> 
+          <% end %>
+         
 
         </div>
         <div class='item-info'>
@@ -184,7 +182,6 @@
      
     </ul>
   </div>
-  <%# /商品一覧 %>
 </div>
 <%= link_to(new_item_path, class: 'purchase-btn') do %>
   <span class='purchase-btn-text'>出品する</span>

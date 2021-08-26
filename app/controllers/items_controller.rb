@@ -2,13 +2,15 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :limit_item, only: [:edit, :update, :destroy]
+  before_action :limit_buy, only: [:edit, :update, :destroy]
   def index
-    @items = Item.order("created_at DESC")
+    @items = Item.order('created_at DESC')
   end
 
   def new
     @item = Item.new
   end
+
   def create
     @item = Item.new(item_params)
 
@@ -17,7 +19,7 @@ class ItemsController < ApplicationController
     else
       render :new
     end
-    end
+  end
 
   def show
   end
@@ -26,29 +28,34 @@ class ItemsController < ApplicationController
   end
 
   def update
-
-      if @item.update(item_params)
-        redirect_to item_path
-      else
-        render :edit
-      end
+    if @item.update(item_params)
+      redirect_to item_path
+    else
+      render :edit
     end
-      def destroy
-        @item.destroy
-      redirect_to root_path
-      end
-  
+  end
+
+  def destroy
+    @item.destroy
+    redirect_to root_path
+  end
+
   private
+
   def item_params
-    params.require(:item).permit(:image, :product_name, :description, :price, :category_id, :condition_id, :day_to_ship_id, :delivery_fee_id, :prefecture_id).merge(user_id: current_user.id)
+    params.require(:item).permit(:image, :product_name, :description, :price, :category_id, :condition_id, :day_to_ship_id,
+                                 :delivery_fee_id, :prefecture_id).merge(user_id: current_user.id)
   end
 
   def set_item
-      @item = Item.find(params[:id])
+    @item = Item.find(params[:id])
   end
+
   def limit_item
-    unless current_user == @item.user
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_user == @item.user
+  end
+
+  def limit_buy
+    redirect_to root_path if @item.user_buy_sell.present?
   end
 end
