@@ -28,13 +28,14 @@ class ProductBuysController < ApplicationController
  end
  def limit_buy
    if @item.user_buy_sell.present? 
-   redirect_to root_path
+      redirect_to root_path
    end
  end
  def self_buy
    if current_user == @item.user
-   redirect_to root_path
-  end
+      redirect_to root_path
+   end
+ end
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  
     Payjp::Charge.create(
@@ -43,5 +44,5 @@ class ProductBuysController < ApplicationController
     currency: 'jpy'                 
     )
   end
-end
+
 end
