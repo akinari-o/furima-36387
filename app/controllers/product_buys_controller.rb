@@ -4,22 +4,15 @@ class ProductBuysController < ApplicationController
   before_action :limit_buy, only: [:index, :create] 
   def index
     @product_buy_user_buy_sell = ProductBuyUserBuySell.new
-    @item = Item.find(params[:item_id])
   end
   def create
     
-    @item = Item.find(params[:item_id])
     @product_buy_user_buy_sell = ProductBuyUserBuySell.new(product_buy_user_buy_sell_params)
     
    
     if @product_buy_user_buy_sell.valid?
        @product_buy_user_buy_sell.save
-       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  
-       Payjp::Charge.create(
-        amount: @item.price,  
-        card: product_buy_user_buy_sell_params[:token],    
-        currency: 'jpy'                 
-      )
+       pay_item
       redirect_to root_path
     else
       render :index
@@ -38,6 +31,13 @@ class ProductBuysController < ApplicationController
       redirect_to root_path
     end
   end
-  
+  def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  
+       Payjp::Charge.create(
+        amount: @item.price,  
+        card: product_buy_user_buy_sell_params[:token],    
+        currency: 'jpy'                 
+      )
+  end
 end
 
