@@ -9,7 +9,7 @@ class ProductBuyUserBuySell
     validates :municipalities
     validates :address  
     validates :telephone_number, format: {with: /\A[0-9]+\z/, message: "is invalid. Input only number"}
-    validates :telephone_number, format: {with: /\A[0-9]{10,11}\z/, message: "is too short"}
+    validates :telephone_number, format: {with: /\A[0-9]{10,11}\z/, message: "is invalid. 10or11 digit"}
     validates :user_id
     validates :item_id
     validates :token
